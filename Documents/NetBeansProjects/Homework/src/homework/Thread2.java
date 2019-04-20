@@ -36,7 +36,7 @@ public class Thread2 extends Thread {
     @Override
     public synchronized void run(){
         Thread t = Thread.currentThread();
-        FileUtils f = null;
+       
         for (int i1 = i; i1 <= j; i1++) {
             try {
                 String s = (String) queue1.pop();
@@ -44,6 +44,7 @@ public class Thread2 extends Thread {
                 int c[]=count(s2);
                 String s3 = "file " + s + ",numofchar " +c[0] + ",numofdigit " + c[1] + ",numofrest" + c[2];
                 queue2.add(s3);
+                notifyAll();
             } catch (InterruptedException | IOException ex) {
                 Logger.getLogger(Thread2.class.getName()).log(Level.SEVERE, null, ex);
             }

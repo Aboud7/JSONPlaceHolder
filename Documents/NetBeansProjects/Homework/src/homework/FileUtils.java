@@ -16,11 +16,11 @@ public class FileUtils {
 		return new String(Files.readAllBytes(Paths.get(name)));
 	}
 	public static void appendStringToFile( String line) throws IOException {	
-                File file = new File("hi.txt");
+                File file = new File("results.txt");
                 file.createNewFile();
 		FileWriter fw = new FileWriter(file, true);
-		fw.write(line );
-                fw.write("\n");
+		fw.write(line+ System.lineSeparator() );
+               
 		fw.close();
 	}
 
