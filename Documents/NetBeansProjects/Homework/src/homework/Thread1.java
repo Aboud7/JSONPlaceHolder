@@ -6,14 +6,13 @@ import java.util.logging.Logger;
 
 
 public class Thread1 extends Thread{
-    BlockingQueue queue;
-    public Thread1(BlockingQueue q){
-        queue = q;
+    BlockingQueue queue=new BlockingQueue(100);
+    public Thread1(){
     }
     
     @Override
     public synchronized void run(){
-        Thread t = Thread.currentThread();
+    
         String s;
         for (int i = 0; i < 100; i++) {
             s="data/f"+i+".txt";
@@ -23,5 +22,8 @@ public class Thread1 extends Thread{
                 Logger.getLogger(Thread1.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+    public BlockingQueue getQueue(){
+        return queue;
     }
 }

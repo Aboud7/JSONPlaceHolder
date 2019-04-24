@@ -5,11 +5,15 @@ import java.util.List;
 public class BlockingQueue {
 	private List queue;
 	private Integer limit;
+        
 	public BlockingQueue(Integer limit) {
 		this.limit = limit;
 		queue = new LinkedList();
 	}
-	
+	public synchronized int  size(){
+            return queue.size();
+        }
+        
 	public synchronized Boolean isEmpty() {
 		return this.queue.size() == 0;
 	}

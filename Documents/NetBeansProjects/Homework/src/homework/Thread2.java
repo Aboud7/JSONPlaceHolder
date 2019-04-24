@@ -8,14 +8,12 @@ import java.util.logging.Logger;
 public class Thread2 extends Thread {
     BlockingQueue queue1;
     BlockingQueue queue2;
-    Integer i;
-    Integer j;
     
-    public Thread2(BlockingQueue q1,BlockingQueue q2,Integer i,Integer j){
+    
+    public Thread2(BlockingQueue q1,BlockingQueue q2){
         queue1 = q1;
         queue2 = q2;
-        this.i=i;
-        this.j=j;
+        
     }
          public static int [] count(String s){
          int c1 = 0;
@@ -34,17 +32,16 @@ public class Thread2 extends Thread {
         return a;
      }
     @Override
-    public synchronized void run(){
-        Thread t = Thread.currentThread();
-       
-        for (int i1 = i; i1 <= j; i1++) {
+    public  void run(){
+        
+       while(!queue1.isEmpty()){
             try {
                 String s = (String) queue1.pop();
                 String s2 = FileUtils.readFileAsString(s);
                 int c[]=count(s2);
-                String s3 = "file " + s + ",numofchar " +c[0] + ",numofdigit " + c[1] + ",numofrest" + c[2];
+                String s3 = s + "#" +c[0] + "#" + c[1] + "#" + c[2];
                 queue2.add(s3);
-                notifyAll();
+                
             } catch (InterruptedException | IOException ex) {
                 Logger.getLogger(Thread2.class.getName()).log(Level.SEVERE, null, ex);
             }

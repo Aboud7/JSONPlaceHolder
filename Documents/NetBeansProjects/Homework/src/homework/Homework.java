@@ -7,43 +7,34 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Homework {
-
     public static void main(String[] args) throws InterruptedException {
-        Integer l1 = 100;
-        BlockingQueue s1 = new BlockingQueue(l1);
-        BlockingQueue s2 = new BlockingQueue(l1);
-        Thread1 th = new Thread1(s1);
-        th.start();th.join();
-        
-        Thread2 th1 = new Thread2(s1, s2,0,11);
-        th1.start();
-        
-        Thread2 th2 = new Thread2(s1, s2,12,23);
-        th2.start();
-        
-        Thread2 th3 = new Thread2(s1, s2,24,35);
-        th3.start();
-        
-        Thread2 th4 = new Thread2(s1, s2,36,47);
-        th4.start();
-      
-        Thread2 th5 = new Thread2(s1, s2,48,59);
-        th5.start();
+        BlockingQueue s2 = new BlockingQueue(100);
+        Thread1 th = new Thread1();
+        th.start();
        
-        Thread2 th6 = new Thread2(s1, s2,60,71);
-        th6.start();
-      
-        Thread2 th7 = new Thread2(s1, s2,72,83);
-        th7.start();
-        
-        Thread2 th8 = new Thread2(s1, s2,84,99);
-        th8.start();
+                
+        Thread2 threadsArray[]=new Thread2[8];
+        for(int i=0;i<8;i++){
+            threadsArray[i]=new Thread2(th.getQueue(),s2);
+            threadsArray[i].start();
+        }
         
         Thread3 th0 = new Thread3(s2);
         th0.start();
-        synchronized(th0){
-            if(s2.isEmpty())
-                th0.wait();
+        th.join();
+        for(int i=0;i<8;i++){
+            if(th.isAlive()){
+                synchronized(threadsArray[i]){
+            threadsArray[i].wait();}
         }
+            
+            else
+                synchronized(th){
+                    th.notifyAll();}
+            threadsArray[i].join();
+        }
+        
+        th0.join();
+        
     }
 }
